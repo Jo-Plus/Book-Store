@@ -1,0 +1,35 @@
+# 🧱 المجلدات اللي بتتولد تلقائيًا
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+
+# ⚙️ ملفات الإعدادات والبيئة
+.env
+.env.local
+.env.development
+.env.production
+
+# 🧪 ملفات بيانات مؤقتة
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ⚒️ ملفات النظام
+.DS_Store
+Thumbs.db
+
+# ⚙️ ملفات خاصة بالمحررات
+.vscode/
+.idea/
+*.swp
+
+# ⚙️ لو بتستخدم TypeScript (اختياري)
+*.tsbuildinfo
+
+# 📦 ملفات التثبيت المؤقتة
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
