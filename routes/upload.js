@@ -1,13 +1,16 @@
-const { Router } = require('express');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
+const { Router } = require("express");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const router = Router();
 
-const uploadPath = path.join(__dirname, '../images');
+const uploadPath =
+  process.env.NODE_ENV === "production"
+    ? "/tmp"
+    : path.join(__dirname, "../images");
 
-if (!fs.existsSync(uploadPath)) {
+if (process.env.NODE_ENV !== "production" && !fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
 }
 
@@ -16,26 +19,19 @@ const storage = multer.diskStorage({
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    if (file) {
-      cb(
-        null,
-        Date.now() + '-' + Math.round(Math.random() * 1e9) + '-' + file.originalname
-      );
-    } else {
-      cb(null, false);
-    }
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
 const upload = multer({ storage: storage });
 
-router.post('/', upload.single('image'), (req, res) => {
+router.post("/", upload.single("image"), (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ message: 'No image uploaded' });
+    return res.status(400).json({ message: "No image uploaded" });
   }
 
   res.status(200).json({
-    message: 'Image uploaded successfully',
+    message: "Image uploaded successfully (Temporary)",
     file: req.file.filename,
   });
 });
