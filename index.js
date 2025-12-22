@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -17,11 +17,18 @@ app.use(cors({
   origin: "*",
 }));
 
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 connectToDb();
+
+
+app.get('/', (req, res) => {
+  res.status(200).send('<h1>Welcome to Book Store API ^_^</h1><p>The server is running successfully on Vercel.</p>');
+});
 
 app.use("/api/books", require('./routes/books.js'));
 app.use("/api/authors", require('./routes/authors.js'));
